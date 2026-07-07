@@ -143,7 +143,7 @@ Configure `.env`:
 FEISHU_APP_ID=your_app_id
 FEISHU_APP_SECRET=your_app_secret
 FEISHU_SPREADSHEET_TOKEN=your_spreadsheet_token
-CSV_FILE_PATH=path/to/your/file.csv
+CSV_FILE_PATH=production_records.csv
 ```
 
 ### Spreadsheet Token
@@ -183,10 +183,12 @@ python main.py
 Example output:
 
 ```text
-CSV rows: 17
+CSV file: production_records.csv
+CSV size: 17 rows x 8 columns
 Sheet: Sheet1, ID: IGxLIP
+Clearing range: IGxLIP!A1:H1000
 Writing range: IGxLIP!A1:H17
-CSV written to Feishu successfully
+Sync completed
 ```
 
 ## Dynamic Range Calculation
@@ -210,13 +212,28 @@ Column names beyond `Z` are supported.
 
 ## Current Limitations
 
-The current version performs a manual full-range write.
+The current version performs a manual full refresh:
+
+```text
+production_records.csv
+       |
+       v
+Read all CSV rows
+       |
+       v
+Clear old Sheet values
+       |
+       v
+Write all CSV rows
+       |
+       v
+Sync completed
+```
 
 It does not yet support:
 
 - Automatic file watching
 - Incremental synchronization
-- Removal of stale rows when the local CSV becomes smaller
 - Multiple CSV-to-Sheet mappings
 - Conflict detection
 - Bidirectional synchronization
@@ -231,10 +248,10 @@ It does not yet support:
 - [x] Query Sheet information
 - [x] Dynamic range calculation
 - [x] Write CSV data to Feishu Sheets
+- [x] Clear stale spreadsheet data before synchronization
 
 ### v0.2
 
-- [ ] Clear stale spreadsheet data before synchronization
 - [ ] Select Sheet by name
 - [ ] Better configuration validation
 - [ ] Improved error handling

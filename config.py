@@ -29,6 +29,7 @@ FEISHU_SPREADSHEET_TOKEN = get_required_env(
     "FEISHU_SPREADSHEET_TOKEN"
 )
 
-CSV_FILE_PATH = get_required_env(
-    "CSV_FILE_PATH"
+CSV_FILE_PATH = (
+    os.getenv("CSV_FILE_PATH")
+    or "production_records.csv"
 )
